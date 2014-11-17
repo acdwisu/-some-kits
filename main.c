@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <math.h>
-#define caption "\t\t\t\t\\ 'S o m e'   T o o l s /\n\t\t\t\t =======================\n\n\n\n" //judul
+#define caption "\t\t\t\t\\ 'S o m e'   T o o l s /\n\t\t\t\t =======================\n\n\n\n"      //header
 
 void opening();
 void en_in();
@@ -15,18 +15,20 @@ void tambahIn_En();
 void about();
 void ulang(int menu);
 void loading();
+long int countWordEn();
+long int countWordIn();
 void keluar();
 
 int i;
 char en[280];
 char in[280];
 char input[50];
-int menu = 111;
+int menu = 111;                     // variabel menu diisi nilai 111
 
 void main()
 {
     int subMenu1;
-    if (menu == 111)
+    if (menu == 111)                // menampilkan opening hanya jika menu = 111
     {
         opening();
         system("cls");
@@ -39,7 +41,7 @@ void main()
     printf("4. Tambahkan Kata\n");
     printf("5. Tentang\n");
     printf("6. Keluar\n");
-    printf("=> "); scanf("%d", &menu);
+    printf("=> "); scanf("%d", &menu);      // melakukan input nilai ke menu, sehingga apabila prosedur main() dipanggil kembali, opening tidak akan ditampilkan
     switch(menu)
     {
     case 1 :
@@ -86,17 +88,35 @@ void main()
     }
 }
 
-void opening()
+void opening()                              // prosedur opening
 {
+    int j = 1;
     system("color f0");
-    char op[]   = "\n\n\n\n\n\t\t\tL o a d i n g . . . . .";
+    char op[]   = "\n\n\n\n\n\t\t\tL o a d i n g";
+    char ttk[]  = " . . . . .";
+    char clear[]= "          ";
     char cap[]  = "\' S O M E \'   T O O L S";
-    for (i=0; op[i] != 0; i++)
+    for (i=0; op[i] != 0; i++)              // menampilkan kata "Loading" per karakter
     {
-        Sleep(150);
         printf("%c", op[i]);
     }
-    for (i=23; i>0; i--)
+    while (j <= 3)
+    {
+        for (i=0; ttk[i] != 0; i++)         // menampilkan array/string ttk per karakter, dalam jeda waktu 130 miliseconds
+        {
+            Sleep(130);
+            printf("%c", ttk[i]);
+        }
+        Sleep(220);
+        for (i=10; i>0; i--)                // melakukan backspace kursor dan menggantikan karakter dalam string ttk
+        {                                   // per karakter dengan string clear
+            printf("\b");
+            printf("%c", clear[i]);
+            printf("\b");
+        }
+        j++;
+    }
+    for (i=13; i>0; i--)
     {
         Sleep(20);
         printf("\b");
@@ -111,33 +131,33 @@ void opening()
     Sleep(3000);
 }
 
-void en_in()
+void en_in()                                    // prosedur terjemah inggris ke indonesia
 {
     system("cls");
     i = 0;
     puts(caption);
     char title [] = "Terjemahkan Inggris -> Indonesia";
     FILE *finEn, *finIn;
-    finEn = fopen("en-in.txt", "r");
-    finIn = fopen("en-in0.txt", "r");
+    finEn = fopen("en-in.txt", "r");            // (en-in.txt) data kata bahasa inggris, dalam mode read
+    finIn = fopen("en-in0.txt", "r");           // (en-in0.txt) definisi dari kata bahasa inggris dalam bahasa indonesia, dalam mode read
     puts(title);
-    printf("\n\n\n\n\n\n\n");
-    printf("Inggris   : "); scanf("%s", &input);
+    printf("\n\n\n\n\n");
+    printf("Inggris   : "); scanf("%s", &input);   // memasukkan kata dalam bahasa inggris
 
-    fgets(in, sizeof (in), finIn);
-    while (fscanf(finEn, "%s", &en) == 1 && strcmpi(input, en) != 0)
-    {
+    fgets(in, sizeof (in), finIn);              // membaca data dari en-in0.txt dan dipindahkan ke variabel in
+    while (fscanf(finEn, "%s", &en) == 1 && strcmpi(input, en) != 0)  // melakukan pengulangan selama dilakukan pembacaan dari en-in.txt ke variabel en
+    {                                                                 // dan selama penyamaan string input dan en masih false (case insensitive)
         fgets(in, sizeof (in), finIn);
     }
-    if (strcmpi(input, en) == 0)
-    {
+    if (strcmpi(input, en) == 0)                // apabila proses perulangan sudah selesai, yakni penyamaan string input dan en sudah true
+    {                                           // akan ditampilkan definisi dari kata yang diinput tadi
         i = 1;
         loading();
         printf("Indonesia : "); puts(in);
         ulang(menu);
     }
-    else if (i == 0)
-    {
+    else if (i == 0)                            // sedangkan apabila perulangan sudah selesai namun penyamaan string input dan en masih false
+    {                                           // maka akan diberitahu bahwa kata yang diinput tadi tidak ditemukan (tidak terdapat dalam data en-in.txt), begitupula definisinya
         loading();
         printf("Kata tidak ditemukan.\n");
         ulang(menu);
@@ -146,7 +166,7 @@ void en_in()
     fclose(finIn);
 }
 
-void in_en()
+void in_en()                                   // prosedur terjemah indonesia ke inggris
 {
     system("cls");
     i = 0;
@@ -156,7 +176,7 @@ void in_en()
     finIn = fopen("in-en.txt", "r");
     finEn = fopen("in-en0.txt", "r");
     puts(title);
-    printf("\n\n\n\n\n\n\n");
+    printf("\n\n\n\n\n");
     printf("Indonesia : "); scanf("%s", &input);
 
     fgets(en, sizeof (en), finEn);
@@ -181,7 +201,7 @@ void in_en()
     fclose(finIn);
 }
 
-void calc()
+void calc()                         // prosedur kalkulator
 {
     system("cls");
     float bil1;
@@ -195,10 +215,10 @@ void calc()
     printf("        \"-> 1 sin 60\"\n");
     printf("        \"-> 25 # 2\"(25 akar 2)\n\n");
     tabelCalc();
-    printf("-> ");
-    scanf("%f", &bil1);
-    scanf("%s", &opr);
-    scanf("%f", &bil2);
+    printf("-> ");               // diminta agar melakukan input secara berurutan (ex : "2 x 5")
+    scanf("%f", &bil1);          // menyimpan operand di variable bil1
+    scanf("%s", &opr);           // menyimpan operator aritmatik di variabel opr
+    scanf("%f", &bil2);          // menyimpan operand di variabel bil2
     if (strcmp(opr, "+") == 0)
     {
         hasil = bil1 + bil2;
@@ -207,8 +227,8 @@ void calc()
     {
         hasil = bil1 - bil2;
     }
-    else if (strcmp(opr, "x") == 0)
-    {
+    else if (strcmpi(opr, "x") == 0)    // apabila penyamaan string (case insensitive) opr dan "x" bernilai true
+    {                                   // akan melakukan perhitungan
         hasil = bil1 * bil2;
     }
     else if (strcmp(opr, ":") == 0)
@@ -223,27 +243,27 @@ void calc()
     {
         hasil = pow(bil1, 1.0/bil2);
     }
-    else if (strcmp(opr, "sin") == 0)
-    {
+    else if (strcmpi(opr, "sin") == 0)          // apabila penyamaan string (case insensitive) opr dan "sin" bernilai true
+    {                                           // melakukan perhitungan dengan memanggil fungsi sin()
         hasil = bil1 * sin(bil2*derajat);
     }
-    else if (strcmp(opr, "cos") == 0)
+    else if (strcmpi(opr, "cos") == 0)
     {
         hasil = bil1 * cos(bil2*derajat);
     }
-    else if (strcmp(opr, "tan") == 0)
+    else if (strcmpi(opr, "tan") == 0)
     {
         hasil = bil1 * tan(bil2*derajat);
     }
-    else if (strcmp(opr, "asin") == 0)
+    else if (strcmpi(opr, "asin") == 0)
     {
         hasil = bil1 * asin(bil2)*180/3.14;
     }
-    else if (strcmp(opr, "acos") == 0)
+    else if (strcmpi(opr, "acos") == 0)
     {
         hasil = bil1 * acos(bil2)*180/3.14;
     }
-    else if (strcmp(opr, "atan") == 0)
+    else if (strcmpi(opr, "atan") == 0)
     {
         hasil = bil1 * atan(bil2)*180/3.14;
     }
@@ -259,7 +279,7 @@ void calc()
     ulang(menu);
 }
 
-void tabelCalc()
+void tabelCalc()                // tabel operator-operator yang dapat digunakan dalam prosedur calc()
 {
     printf("_____________________________\n");
     printf("|  +  |   -  |   ^  |#(akar)|\n");
@@ -268,7 +288,7 @@ void tabelCalc()
     printf("=============================\n");
 }
 
-void ulang(int menu)
+void ulang(int menu)                // prosedur untuk melakukan pengulangan
 {
     int pil;
     Sleep(400);
@@ -289,8 +309,8 @@ void ulang(int menu)
             case 2:
             {
                 system("cls");
-                if (menu == 1)
-                {
+                if (menu == 1)          // apabila sebelumnya telah diinputkan nilai 1 ke variabel menu
+                {                       // maka akan dilakukan pemanggilan prosedur en_in()
                     en_in();
                 }
                 else if (menu == 2)
@@ -327,20 +347,20 @@ void ulang(int menu)
     }
 }
 
-void tambahEn_In()
+void tambahEn_In()                // prosedur menambahkan kata inggris dan definisi bahasa indonesia
 {
     FILE *faddEn, *faddIn;
     system("cls");
-    faddEn = fopen("en-in.txt", "a");
-    faddIn = fopen ("en-in0.txt", "a");
+    faddEn = fopen("en-in.txt", "a");       // membuka data kata bahasa inggris, dalam mode rewrite
+    faddIn = fopen ("en-in0.txt", "a");     // membuka data definisi bahasa indonesia, dalam mode rewrite
     puts(caption);
     printf("\n\n\nTambah kata Inggris -> Indonesia\n\n");
-    printf("Inggris   : "); scanf("%s", &en);
-    fprintf(faddEn, "\n%s", en);
-    fflush(stdin);
-    printf("Indonesia : "); gets(in);
-    fprintf(faddIn, "\n");
-    fputs(in, faddIn);
+    printf("Inggris   : "); scanf("%s", &en);   // menginput kata dalam bahasa inggris dan disimpan ke variabel en
+    fprintf(faddEn, "\n%s", en);                // membuat newline, lalu mencetak kata yang tersimpan dalam variabel en ke en-in.txt
+    fflush(stdin);                              // membersihkan aliran input
+    printf("Indonesia : "); gets(in);           // menginput definisi dalam bahasa indonesia dan disimpan ke array in
+    fprintf(faddIn, "\n");                      // membuat new line
+    fputs(in, faddIn);                          // mencetak definisi yang tersimpan dalam array in ke en-in0.txt
     fflush(stdin);
     fclose(faddEn);
     fclose(faddIn);
@@ -349,7 +369,7 @@ void tambahEn_In()
     ulang(menu);
 }
 
-void tambahIn_En()
+void tambahIn_En()              // prosedur menambahkan kata indonesia dan definisi bahasa inggris
 {
     FILE *faddEn, *faddIn;
     system("cls");
@@ -371,33 +391,72 @@ void tambahIn_En()
     ulang(menu);
 }
 
-void loading()
+long int countWordEn()           // fungsi menghitung jumlah kata dalam en-in.txt
 {
-    char loading[]="\n . . . . ";
-    for(i=0;loading[i] != 0; i++)
+    i = 0;
+    FILE *fce;
+    fce = fopen("en-in.txt", "r");
+    while (! feof(fce))
     {
-        Sleep(100);
-        printf("%c",loading[i]);
+        fscanf(fce, "%s", &en);
+        i++;
+        fflush(stdin);
     }
-    for(i=18;i>0; i--)
+    return i;                   // mengembalikkan nilai i
+}
+
+long int countWordIn()          // fungsi menghitung jumlah kata dalam in-en.txt
+{
+    i = 0;
+    FILE *fci;
+    fci = fopen("in-en.txt", "r");
+    while (! feof(fci))
     {
-        Sleep(20);
-        printf("\b");
+        fscanf(fci, "%s", &in);
+        i++;
+        fflush(stdin);
+    }
+    return i;                   // mengembalikkan nilai i
+}
+
+void loading()                  // prosedur efek loading
+{
+    int h = 1;
+    char ttk[]  = " . . . . .";
+    char clear[]= "          ";
+    puts("");
+    while (h <= 2)
+    {
+        for (i=0; ttk[i] != 0; i++)
+        {
+            Sleep(80);
+            printf("%c", ttk[i]);
+        }
+        Sleep(120);
+        for (i=10; i>0; i--)
+        {
+            printf("\b");
+            printf("%c", clear[i]);
+            printf("\b");
+        }
+        h++;
     }
 }
 
-void keluar()
+void keluar()               // prosedur untuk keluar
 {
     loading();
     exit(1);
 }
 
-void about()
+void about()                // prosedur tentang
 {
     system("cls");
     puts(caption);
     printf("\n\n\n");
     printf("\'Some\' Tools coded by Achmad Dwi Suriyanto\n\n");
-    printf("pustaka kamus : gKamus File Format v1.0 by Firmansyah, Ardhan Madras\n\n\n");
+    printf("Inggris -> Indonesia : %ld kata\n", countWordEn());     // memanggil fungsi countWordEn()
+    printf("Indonesia -> Inggris : %ld kata\n", countWordIn());     // memanggil fungsi countWordIn()
+    printf("pustaka kamus : gKamus File Format v1.0 by Firmansyah, Ardhan Madras\n");
     ulang(menu);
 }
