@@ -23,12 +23,12 @@ int i;
 char en[280];
 char in[280];
 char input[50];
-int menu = 111;                     // variabel menu diisi nilai 111
+int menu = 1432;                     // variabel menu diisi nilai 1432
 
 void main()
 {
     int subMenu1;
-    if (menu == 111)                // menampilkan opening hanya jika menu = 111
+    if (menu == 1432)                // menampilkan opening hanya jika menu = 1432
     {
         opening();
         system("cls");
